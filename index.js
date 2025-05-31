@@ -2,6 +2,7 @@ const express = require('express');
 const { google } = require('googleapis');
 const path = require('path');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -9,18 +10,15 @@ const PORT = process.env.PORT || 4000;
 // Enable CORS for all routes
 app.use(cors());
 
-// Path to your service account key file
-const KEYFILEPATH = path.join(__dirname, 'complianceheatmap-lucas-a64f3ed8182a.json');
+// Google Sheets API configuration
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
-
-// Your spreadsheet ID and range
-const SPREADSHEET_ID = '1N-10Z6jSI9Dwf0fUuY8uRSuHYiuZFMi1y4HPDaeVrn0';
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID || '1N-10Z6jSI9Dwf0fUuY8uRSuHYiuZFMi1y4HPDaeVrn0';
 const RANGE = "'Risk Analysis'!A1:U8";
 
 app.get('/api/sheet-data', async (req, res) => {
   try {
     const auth = new google.auth.GoogleAuth({
-      keyFile: KEYFILEPATH,
+      credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS),
       scopes: SCOPES,
     });
 

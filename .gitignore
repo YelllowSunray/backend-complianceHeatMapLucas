@@ -1,0 +1,12 @@
+# Service account credentials
+complianceheatmap-lucas-a64f3ed8182a.json
+*.json
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+*.log 
